@@ -10,8 +10,18 @@ const router = createRouter({
       component: Home,
       children: [
         {
-          path: "/first",
-          name: "first",
+          path: "/parent_1/child_1",
+          name: "child_1",
+          component: Hello,
+        },
+        {
+          path: "/parent_1/child_2",
+          name: "child_2",
+          component: Hello,
+        },
+        {
+          path: "/parent_1/child_3",
+          name: "child_3",
           component: Hello,
         },
       ],
