@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { Home, Hello } from "../pages";
+import { Home, Hello,Group } from "../pages";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,7 +12,7 @@ const router = createRouter({
         {
           path: "/parent_1/child_1",
           name: "child_1",
-          component: Hello,
+          component: Group,
         },
         {
           path: "/parent_1/child_2",
