@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { Message } from '@arco-design/web-vue';
-
+import { useGlobalStore } from '@/stores/global'
 import { MenuSlider, Header, Content } from './components/'
-const onClickMenuItem = (key: string | number) => {
-    Message.info({ content: `You select ${key}`, showIcon: true });
-}
+import { storeToRefs } from 'pinia'
+const globaStore = useGlobalStore()
+const { menuData } = storeToRefs(globaStore)
+
 </script>
 <template>
     <a-layout class="layout-demo">
-        <MenuSlider></MenuSlider>
+        <MenuSlider :routesData="menuData.data"></MenuSlider>
         <a-layout>
             <Header />
-            <Content />
+            <Content :routesData="menuData.data" />
         </a-layout>
     </a-layout>
 </template>

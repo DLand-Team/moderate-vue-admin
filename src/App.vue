@@ -1,5 +1,20 @@
 <script setup lang="ts">
-import {  RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import { onMounted, reactive } from 'vue'
+import { useRoute } from 'vue-router'
+import { useGlobalStore } from '@/stores/global'
+import { processRoutes } from '@/router/index'
+const route = useRoute();
+const globaStore = useGlobalStore()
+const { getPermissionsData, setMenuData } = globaStore
+
+onMounted(async () => {
+  const permissionsData = await getPermissionsData()
+  processRoutes(permissionsData, route).then((menuData) => {
+    setMenuData(menuData)
+  })
+})
+
 </script>
 
 <template>
