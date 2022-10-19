@@ -34,7 +34,7 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: CenterLayout,
-      children: [{ path: "/home/index", name: "index", component: Index }],
+      children: [],
     },
   ],
 });
@@ -83,7 +83,6 @@ export const processRoutes = (
       };
       processRoute(data.children, persmissions, "");
       processRouteTwice(data.children);
-      debugger;
       data.children.forEach((item) => {
         router.addRoute("home", item);
       });
@@ -92,16 +91,14 @@ export const processRoutes = (
         name: "NotFound",
         component: NotFund,
       });
+      debugger;
       next({ ...to, replace: true });
     } else {
       next();
     }
   });
-  // router.push(routeData.path);
-  return Promise.resolve([
-    { path: "/home/index", name: "index", component: NotFund },
-    ...persmissions,
-  ]);
+  router.push(routeData.fullPath);
+  return Promise.resolve([...persmissions]);
 };
 
 export default router;

@@ -8,11 +8,16 @@ export const useGlobalStore = defineStore("global", () => {
   });
 
   function setMenuData(data: any) {
+    debugger
     menuData.data = data;
   }
 
   function getPermissionsData() {
-    return Promise.resolve(mockData.data);
+    return new Promise<typeof mockData.data>((resolve)=>{
+      setTimeout(()=>{
+        resolve(mockData.data);
+      },1000)
+    })
   }
   return { menuData, getPermissionsData, setMenuData };
 });

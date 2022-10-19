@@ -1,9 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
-import { Hello, Group } from "@/pages";
-import { CenterLayout } from "@/layouts";
+import { Hello, Group, Index } from "@/pages";
 
 const RouteIds = {
-  home: "home",
+  index: "index",
   parent_1: "parent_1",
   child_1: "child_1",
   child_2: "child_2",
@@ -16,15 +15,15 @@ export type RouteRecordRawCustom = RouteRecordRaw & {
   redirectName: string;
 };
 
-const { child_1, child_3 } = RouteIds;
+const { child_3 } = RouteIds;
 const config: {
   [key in RouteKeyT]: Partial<RouteRecordRawCustom>;
 } = {
-  home: {
-    component: CenterLayout,
+  index: {
+    component: Index,
   },
   parent_1: {
-    redirectName: child_1,
+    redirectName: child_3,
   },
   child_1: {
     component: Group,

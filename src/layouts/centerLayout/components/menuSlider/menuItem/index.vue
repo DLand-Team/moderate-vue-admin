@@ -1,40 +1,16 @@
 <script setup lang="ts">
 import {
-    IconCaretRight,
-    IconCaretLeft,
-    IconHome,
     IconCalendar,
 } from '@arco-design/web-vue/es/icon';
-import { useRouter, useRoute } from 'vue-router'
-import { watch, ref, onMounted } from 'vue'
 import type { RouteItemDataT } from '@/router/index'
 import MenuItem from './index.vue'
 
-const router = useRouter()
-const route = useRoute()
 
 const { itemData } = defineProps<{
     itemData: RouteItemDataT
 }>()
 
-let pathTemp = route.path.slice(1);
-let arr = pathTemp ? pathTemp.split("/") : [];
-const memuData = ref<string[]>(arr)
 
-const onClickMenuItem = (itemKey: string) => {
-    router.push("/parent_1/" + itemKey)
-}
-
-onMounted(() => {
-    getMenuData(route.path)
-})
-
-watch(() => route.path, (value, oldValue) => {
-    getMenuData(value)
-})
-
-const getMenuData = (path: string) => {
-}
 
 const hasOneShowingChild = (children: RouteItemDataT[] = [], parent: RouteItemDataT) => {
     if (!children) {

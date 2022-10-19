@@ -4,14 +4,23 @@ import { onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useGlobalStore } from '@/stores/global'
 import { processRoutes } from '@/router/index'
+import { useCounterStore } from '@/stores/counter'
 const route = useRoute();
+const counterStore = useCounterStore()
 const globaStore = useGlobalStore()
 const { getPermissionsData, setMenuData } = globaStore
+const { increment } = counterStore
+
 
 onMounted(async () => {
   const permissionsData = await getPermissionsData()
   processRoutes(permissionsData, route).then((menuData) => {
     setMenuData(menuData)
+    increment()
+    setTimeout(() => {
+      setMenuData([])
+      increment()
+    }, 1000)
   })
 })
 

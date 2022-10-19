@@ -1,6 +1,15 @@
 export default {
   data: [
     {
+      name: "index",
+      meta: {
+        title: "系统管理",
+        icon: "system",
+        noCache: false,
+        link: null,
+      },
+    },
+    {
       name: "parent_1",
       meta: {
         title: "系统管理",
