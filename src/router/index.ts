@@ -75,27 +75,18 @@ export const processRoutes = (
   persmissions: RouteItemDataT[],
   routeData: RouteLocationNormalizedLoaded
 ) => {
-  router.beforeEach((to, from, next) => {
-    if (!flag) {
-      flag = true;
-      let data: { children: RouteRecordRawCustom[] } = {
-        children: [],
-      };
-      processRoute(data.children, persmissions, "");
-      processRouteTwice(data.children);
-      data.children.forEach((item) => {
-        router.addRoute("home", item);
-      });
-      router.addRoute("home", {
-        path: "/:pathMatch(.*)*",
-        name: "NotFound",
-        component: NotFund,
-      });
-      debugger;
-      next({ ...to, replace: true });
-    } else {
-      next();
-    }
+  let data: { children: RouteRecordRawCustom[] } = {
+    children: [],
+  };
+  processRoute(data.children, persmissions, "");
+  processRouteTwice(data.children);
+  data.children.forEach((item) => {
+    router.addRoute("home", item);
+  });
+  router.addRoute("home", {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFund,
   });
   router.push(routeData.fullPath);
   return Promise.resolve([...persmissions]);

@@ -18,7 +18,7 @@ onMounted(async () => {
     setMenuData(menuData)
     increment()
     setTimeout(() => {
-      setMenuData([])
+      // setMenuData([])
       increment()
     }, 1000)
   })

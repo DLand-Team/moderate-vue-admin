@@ -23,7 +23,6 @@ const config: {
     component: Index,
   },
   parent_1: {
-    redirectName: child_3,
   },
   child_1: {
     component: Group,

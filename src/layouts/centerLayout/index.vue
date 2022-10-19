@@ -3,22 +3,20 @@ import { useGlobalStore } from '@/stores/global'
 import { useCounterStore } from '@/stores/counter'
 import { MenuSlider, Header, Content } from './components/'
 import { storeToRefs } from 'pinia'
-import { watchEffect } from 'vue';
-const counterStore = useCounterStore()
+import { watch, watchEffect } from 'vue';
 const globaStore = useGlobalStore()
 const { menuData } = storeToRefs(globaStore)
 
-watchEffect(()=>{
-    console.log(menuData)
+watch(() => menuData.value, () => {
+    debugger
 })
 </script>
 <template>
-    {{counterStore.count}}
-    <a-layout v-if="counterStore.count==1" class="layout-demo">
-        <MenuSlider :routesData="menuData.data"></MenuSlider>
+    <a-layout class="layout-demo">
+        <MenuSlider :routesData="menuData"></MenuSlider>
         <a-layout>
             <Header />
-            <Content :routesData="menuData.data" />
+            <Content :routesData="menuData" />
         </a-layout>
     </a-layout>
 </template>
