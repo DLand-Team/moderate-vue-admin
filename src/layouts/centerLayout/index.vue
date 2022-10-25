@@ -7,9 +7,7 @@ import { watch, watchEffect } from 'vue';
 const globaStore = useGlobalStore()
 const { menuData } = storeToRefs(globaStore)
 
-watch(() => menuData.value, () => {
-    debugger
-})
+
 </script>
 <template>
     <a-layout class="layout-demo">

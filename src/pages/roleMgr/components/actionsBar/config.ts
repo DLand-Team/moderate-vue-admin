@@ -1,0 +1,7 @@
+export const BTN_TYPE = {
+    ADD: 0x00000001,
+    EDIT: 0x00000002,
+    DELETE: 0x00000004,
+    IMPORT: 0x00000008,
+    EXPORT: 0x00000010
+}

@@ -1,27 +1,59 @@
-<script setup lang="ts">
-import { onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useCounterStore } from '@/stores/counter'
-import Table from './components/table/index.vue'
-
-const store = useCounterStore()
-const { count } = storeToRefs(store)
-const { increment } = store;
-
-// 变量
-const msg = 'Hello Moderate-vue-admin!'
-onMounted(() => {
-    console.log(123)
-})
-</script>
-        
 <template>
     <div class="content">
-        <Table></Table>
+        <ActionsBar :btnPermission="btnPermission"></ActionsBar>
+        <a-table :columns="columns" :data="data">
+            <template #optional="{ record }">
+                <a-button @click="handleEdit">edit</a-button>
+            </template>
+        </a-table>
+        <FormModal :handleClose="handleClose" :visible="show"></FormModal>
     </div>
+
 </template>
-        
-        
+  
+<script setup lang="ts">
+import { ref } from 'vue';
+import {BTN_TYPE} from './components/actionsBar/config'
+import ActionsBar from './components/actionsBar/index.vue'
+import FormModal from '@/common/components/formModal/index.vue'
+const btnPermission = 255
+const handleClose = () => {
+    show.value = false
+}
+const handleEdit = () => {
+    show.value = true
+}
+const show = ref(false)
+const columns = [{
+    title: '角色编号',
+    dataIndex: 'id',
+}, {
+    title: '角色名称',
+    dataIndex: 'name',
+}, {
+    title: '权限字符',
+    dataIndex: 'signStr',
+}, {
+    title: '状态',
+    dataIndex: 'status',
+}, {
+    title: '操作',
+    slotName: 'optional'
+}];
+
+const data = [{
+    id: '1',
+    name: '超级管理员',
+    signStr: 'admin',
+    status: 1,
+}, {
+    id: '2',
+    name: '普通角色',
+    signStr: 'normal',
+    status: 1,
+}];
+</script>
+
 <style scoped>
 .content {
     color: black;

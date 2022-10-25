@@ -8,8 +8,6 @@ const pathInfoArr = ref<string[]>([])
 watchEffect(() => {
     let keyArr = route.path.slice(1).split('/')
     pathInfoArr.value = keyArr.map((item) => {
-      let data = (getRouteData(item) as RouteRecordRawCustom)?.meta
-      debugger
         return (getRouteData(item) as RouteRecordRawCustom)?.meta!.title as string || item
     })
 })
