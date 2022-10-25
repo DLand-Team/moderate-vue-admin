@@ -5,12 +5,9 @@ import {
 import type { RouteItemDataT } from '@/router/index'
 import MenuItem from './index.vue'
 
-
 const { itemData } = defineProps<{
     itemData: RouteItemDataT
 }>()
-
-
 
 const hasOneShowingChild = (children: RouteItemDataT[] = [], parent: RouteItemDataT) => {
     if (!children) {
@@ -24,11 +21,6 @@ const hasOneShowingChild = (children: RouteItemDataT[] = [], parent: RouteItemDa
         }
     })
 
-    // When there is only one child router, the child router is displayed by default
-    if (showingChildren.length === 1) {
-        return true
-    }
-
     // Show parent if there are no child router to display
     if (showingChildren.length === 0) {
         return true
@@ -40,12 +32,12 @@ const hasOneShowingChild = (children: RouteItemDataT[] = [], parent: RouteItemDa
 </script>
     
 <template>
-    <template v-if="hasOneShowingChild(itemData.children,itemData)">
-        <a-menu-item :key="itemData.name">{{itemData.name}}</a-menu-item>
+    <template v-if="hasOneShowingChild(itemData.children, itemData)">
+        <a-menu-item :key="itemData.name">{{ itemData.meta!.title }}</a-menu-item>
     </template>
     <a-sub-menu v-else :key="itemData.name">
         <template #title>
-            <IconCalendar></IconCalendar> Navigat ion 4
+            <IconCalendar></IconCalendar> {{ itemData.meta!.title }}
         </template>
         <MenuItem v-for="child in itemData.children" :itemData="child" :key="child.name">
         </MenuItem>

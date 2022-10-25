@@ -5,8 +5,8 @@ import {
 } from '@arco-design/web-vue/es/icon';
 import MenuItem from './menuItem/index.vue'
 import { useRouter, useRoute } from 'vue-router'
-import { watch, reactive, onMounted, ref, watchEffect,toRefs } from 'vue'
-import { getRouteData, type RouteItemDataT } from '@/router/index'
+import { watch, reactive, onMounted, ref, watchEffect, toRefs } from 'vue'
+import { getRouteData, type RouteRecordRawCustom } from '@/router/index'
 
 const router = useRouter()
 const route = useRoute()
@@ -18,13 +18,12 @@ const props = defineProps<{
 }>()
 const { routesData } = toRefs(props);
 
-watchEffect(()=>{
+watchEffect(() => {
     console.log(props.routesData.length)
     console.log(routesData)
 })
 
 const onClickMenuItem = (name: string) => {
-    debugger
     let path = getRouteData(name).path;
     path && router.push(path)
 }
@@ -41,9 +40,8 @@ onMounted(() => {
         initMemuOption()
     }
 })
-debugger
+
 watchEffect(() => {
-    debugger
     if (props.routesData.length) {
         initMemuOption()
     }
@@ -60,7 +58,7 @@ watch(() => route.path, (value, oldValue) => {
     <a-layout-sider collapsible breakpoint="xl">
         <div class="logo" />
         <a-menu v-if="props.routesData.length" :selected-keys="selectKeys.value" :default-open-keys="openKeys.value"
-            :style="{ width: '100%' }" @menu-item-click="onClickMenuItem" @sub-menu-click="onClickMenuItem">
+            :style="{ width: '100%' }" @menu-item-click="onClickMenuItem">
             <MenuItem v-for="(route, index) in props.routesData" :item-data="route">
             </MenuItem>
         </a-menu>

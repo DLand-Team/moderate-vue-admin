@@ -9,6 +9,7 @@ import routesConfig, {
   type RouteKeyT,
   type RouteRecordRawCustom,
 } from "./config";
+
 import { NotFund, Index } from "../pages";
 import { LoginLayout, CenterLayout } from "@/layouts";
 
@@ -27,16 +28,17 @@ export interface RouteItemDataT {
   };
   children?: RouteItemDataT[];
 }
+let homePageRouteData = {
+  path: "/home",
+  name: "home",
+  title: "中心",
+  redirect: "/home/index",
+  component: CenterLayout,
+  children: [],
+};
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: CenterLayout,
-      children: [],
-    },
-  ],
+  routes: [homePageRouteData],
 });
 
 const processRoute = (
@@ -47,6 +49,7 @@ const processRoute = (
   persmissions.forEach((permission, index) => {
     const { name } = permission;
     let routeData = routesConfig[name as RouteKeyT] as RouteRecordRaw;
+    routeData.name = name;
     // 沿途记录，然后拼接成path
     routeData.path = prefix + "/" + name;
     children!.push(routeData);
@@ -70,19 +73,18 @@ const processRouteTwice = (routesData: RouteRecordRawCustom[]) => {
   });
 };
 
-let flag = false;
+
 export const processRoutes = (
   persmissions: RouteItemDataT[],
   routeData: RouteLocationNormalizedLoaded
 ) => {
-  let data: { children: RouteRecordRawCustom[] } = {
-    children: [],
-  };
-  processRoute(data.children, persmissions, "");
-  processRouteTwice(data.children);
-  data.children.forEach((item) => {
-    router.addRoute("home", item);
-  });
+  processRoute(
+    homePageRouteData.children,
+    persmissions,
+    homePageRouteData.path
+  );
+  processRouteTwice(homePageRouteData.children);
+  router.addRoute(homePageRouteData);
   router.addRoute("home", {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
@@ -95,5 +97,8 @@ export const processRoutes = (
 export default router;
 
 export const getRouteData = (name: string) => {
-  return routesConfig[name as RouteKeyT];
+  let data = routesConfig[name as RouteKeyT] || { meta:{title: "中心"} };
+  return data as RouteRecordRaw;
 };
+
+export type { RouteRecordRawCustom } from "./config";
