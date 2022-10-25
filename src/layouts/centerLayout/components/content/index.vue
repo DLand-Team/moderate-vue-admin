@@ -10,10 +10,13 @@ const route = useRoute();
 const router = useRouter();
 
 watchEffect(() => {
-    let { name = '', path, meta = {} } = getRouteData(route.path.slice(1).split('/').slice(-1)[0]) as RouteRecordRawCustom;
-    currentTabKey.value = name;
-    if (!(name in pageCacheArr.value)) {
-        pageCacheArr.value[name as string] = { name: name as string, path, title: meta.title as string }
+    const routeData = getRouteData(route.path.slice(1).split('/').slice(-1)[0]) as RouteRecordRawCustom;
+    if (routeData) {
+        let { name = '', path, meta = {} } = routeData
+        currentTabKey.value = name;
+        if (!(name in pageCacheArr.value)) {
+            pageCacheArr.value[name as string] = { name: name as string, path, title: meta.title as string }
+        }
     }
 })
 
@@ -46,7 +49,7 @@ const handleDelete = (key: string | symbol) => {
 </script>
 
 <template>
-    <a-layout class="content" style="padding: 0 24px;">
+    <a-layout style="padding: 0 24px;">
         <Breadcrumb></Breadcrumb>
         <a-tabs @tab-click="handleClick" @delete="handleDelete" :active-key="currentTabKey as string" type="card-gutter"
             :editable="true" auto-switch>
@@ -54,7 +57,7 @@ const handleDelete = (key: string | symbol) => {
                 :closable="index !== 2">
             </a-tab-pane>
         </a-tabs>
-        <a-layout-content>
+        <a-layout-content class="layout_content">
             <router-view v-slot="{ Component }">
                 <keep-alive>
                     <component :is="Component" />
@@ -67,7 +70,7 @@ const handleDelete = (key: string | symbol) => {
 
 
 <style scoped>
-.content {
+.layout_content {
     color: black;
     padding: 20px;
 

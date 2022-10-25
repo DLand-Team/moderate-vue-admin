@@ -13,13 +13,15 @@
 </template>
  
 <script setup lang="ts">
-import { reactive, ref, toRefs } from 'vue';
+import { ref, toRefs } from 'vue';
 import { FORM_TYPE } from './config'
 const { FORM_SELECT, FORM_DATE_PICKER, FORM_TEXTAREA } = FORM_TYPE;
-const props = defineProps<{ formData: { id:string,title:string,formValue: any, type: string | symbol, options: { selectOptions?: any[] } } }>();
+const props = defineProps<{ formData: any }>();
 const { formData } = toRefs(props)
-debugger
-const { formValue, type, options,title,id } = toRefs(formData.value);
-const { selectOptions } = toRefs(options.value);
+const { formValue, type, options, title, id } = toRefs(formData.value);
+const selectOptions = ref()
+if (type.value == FORM_SELECT) {
+    selectOptions.value = toRefs(options.value)
+}
 
 </script>

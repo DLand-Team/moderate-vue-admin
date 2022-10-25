@@ -97,7 +97,7 @@ export const processRoutes = (
 export default router;
 
 export const getRouteData = (name: string) => {
-  let data = routesConfig[name as RouteKeyT] || { meta:{title: "中心"} };
+  let data = routesConfig[name as RouteKeyT];
   return data as RouteRecordRaw;
 };
 

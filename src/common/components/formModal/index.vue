@@ -1,8 +1,8 @@
  
 <template>
-    <a-modal v-model:visible="visible" title="Modal Form" @cancel="handleCancel" @before-ok="handleBeforeOk">
+    <a-modal v-model:visible="visible" :title="title" @cancel="handleCancel" @before-ok="handleBeforeOk">
         <a-form :model="form">
-            <a-row v-for="(childArr, index) in formItems" class="grid-demo" :gutter="24" :key="index">
+            <a-row v-for="(childArr, index) in formItemsPro" class="grid-demo" :gutter="24" :key="index">
                 <a-col v-for="(cItem, cId) in childArr" class="grid-demo" :span="cItem.span" :key="cId">
                     <FormItem :formData="cItem"></FormItem>
                 </a-col>
@@ -12,20 +12,27 @@
 </template>
  
 <script setup lang="ts">
-import { reactive, ref, toRefs } from 'vue';
-import { FORM_TYPE } from '@/common/components/formItem/config'
+import { toRefs, ref, watchEffect, type Ref } from 'vue';
 import FormItem from '@/common/components/formItem/index.vue'
 
-const { FORM_SELECT, FORM_INPUT } = FORM_TYPE;
-const props = defineProps<{ visible: boolean, handleClose: () => void }>()
-const { visible, handleClose } = toRefs(props);
+export interface FormItemT {
+    id: string
+    title: string
+    type: symbol
+    span: number
+    formValue: Ref<any> | null
+    options?: {
+        selectOptions: { name: string, value: string }[]
+    }
+}
 
-
-const formValues: any = {}
-const processFormItems = (arr: any[]) => {
-    let result: any = [];
+const props = defineProps<{ form: any, formItems: FormItemT[], visible: boolean, handleClose: () => void, title: string }>()
+const { form, visible, handleClose, title, formItems } = toRefs(props);
+const processFormItems = (arr: FormItemT[]) => {
+    let result: FormItemT[][] = [];
     let rowId = 0;
     let total = 0
+    debugger
     for (let i = 0; i < arr.length; i++) {
         let item = arr[i]
         const { span } = item;
@@ -38,50 +45,20 @@ const processFormItems = (arr: any[]) => {
             result[rowId] = []
         }
         result[rowId].push(item)
-        formValues[item.id] = ref()
-        item.formValue = formValues[item.id];
+        form.value[item.id] = ref()
+        item.formValue = form.value[item.id];
     }
     return result
 }
-
-const formItems = ref(processFormItems([
-    {
-        id: "test1",
-        title: "test1",
-        type: FORM_SELECT,
-        span: "12",
-        options: {
-            selectOptions: [
-                { name: "test1", value: "test1" },
-                { name: "test2", value: "test2" },
-            ]
-        }
-    },
-    {
-        id: "test2",
-        title: "test2",
-        type: FORM_INPUT,
-        span: "12",
-        options: {
-        }
-    },
-    {
-        id: "test3",
-        title: "test3",
-        type: FORM_INPUT,
-        span: "12",
-        options: {
-        }
-    },
-]))
-
-const form = reactive({
-    name: '',
-    post: ''
-});
+const formItemsPro = ref<FormItemT[][]>()
+watchEffect(() => {
+    if (formItems.value) {
+        formItemsPro.value = processFormItems(formItems.value)
+    }
+})
 
 
-const handleBeforeOk = (done) => {
+const handleBeforeOk = (done: any) => {
     done()
 };
 const handleCancel = () => {
