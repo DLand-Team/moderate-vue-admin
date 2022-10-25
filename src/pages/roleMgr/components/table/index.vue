@@ -1,97 +1,49 @@
 <template>
     <a-table :columns="columns" :data="data">
         <template #optional="{ record }">
-            <a-button @click="$modal.info({ title: 'Name', content: record.name })">view</a-button>
+            <a-button @click="handleEdit">view</a-button>
         </template>
     </a-table>
-    <a-table :data="data" style="margin-top: 30px">
-        <template #columns>
-            <a-table-column title="Name">
-                <a-table-column title="First Name" data-index="first"></a-table-column>
-                <a-table-column title="Last Name" data-index="last"></a-table-column>
-            </a-table-column>
-            <a-table-column title="Salary" data-index="salary"></a-table-column>
-            <a-table-column title="Address" data-index="address"></a-table-column>
-            <a-table-column title="Email" data-index="email"></a-table-column>
-            <a-table-column title="Optional">
-                <template #cell="{ record }">
-                    <a-button @click="$modal.info({ title: 'Name', content: record.name })">view</a-button>
-                </template>
-            </a-table-column>
-        </template>
-    </a-table>
+    <FormModal :handleClose="handleClose"  :visible="show"></FormModal>
 </template>
   
-<script lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
-
-export default {
-    setup() {
-        const show = ref(true)
-
-        const columns = [{
-            title: 'Name',
-            dataIndex: 'name',
-        }, {
-            title: 'Salary',
-            dataIndex: 'salary',
-        }, {
-            title: 'Address',
-            dataIndex: 'address',
-        }, {
-            title: 'Email',
-            dataIndex: 'email',
-        }, {
-            title: 'Optional',
-            slotName: 'optional'
-        }];
-        const data = [{
-            key: '1',
-            name: 'Jane Doe',
-            first: 'Jane',
-            last: 'Doe',
-            salary: 23000,
-            address: '32 Park Road, London',
-            email: 'jane.doe@example.com'
-        }, {
-            key: '2',
-            name: 'Alisa Ross',
-            first: 'Alisa',
-            last: 'Ross',
-            salary: 25000,
-            address: '35 Park Road, London',
-            email: 'alisa.ross@example.com'
-        }, {
-            key: '3',
-            name: 'Kevin Sandra',
-            first: 'Kevin',
-            last: 'Sandra',
-            salary: 22000,
-            address: '31 Park Road, London',
-            email: 'kevin.sandra@example.com'
-        }, {
-            key: '4',
-            name: 'Ed Hellen',
-            first: 'Ed',
-            last: 'Hellen',
-            salary: 17000,
-            address: '42 Park Road, London',
-            email: 'ed.hellen@example.com'
-        }, {
-            key: '5',
-            name: 'William Smith',
-            first: 'William',
-            last: 'Smith',
-            salary: 27000,
-            address: '62 Park Road, London',
-            email: 'william.smith@example.com'
-        }];
-
-        return {
-            columns,
-            data,
-            show
-        }
-    },
+import FormModal from '../formModal/index.vue'
+const handleClose = ()=>{
+    debugger
+    show.value = false
 }
+const handleEdit = () => {
+    show.value = true
+}
+const show = ref(false)
+const columns = [{
+    title: '角色编号',
+    dataIndex: 'id',
+}, {
+    title: '角色名称',
+    dataIndex: 'name',
+}, {
+    title: '权限字符',
+    dataIndex: 'signStr',
+}, {
+    title: '状态',
+    dataIndex: 'status',
+}, {
+    title: '操作',
+    slotName: 'optional'
+}];
+
+const data = [{
+    id: '1',
+    name: '超级管理员',
+    signStr: 'admin',
+    status: 1,
+}, {
+    id: '2',
+    name: '普通角色',
+    signStr: 'normal',
+    status: 1,
+}];
 </script>

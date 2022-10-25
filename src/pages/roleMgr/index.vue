@@ -27,7 +27,6 @@ onMounted(() => {
     color: black;
     height: 100%;
     width: 100%;
-
 }
 
 .title {

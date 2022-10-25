@@ -69,6 +69,8 @@ const handleDelete = (key: string | symbol) => {
 <style scoped>
 .content {
     color: black;
+    padding: 20px;
+
 }
 
 :deep(.arco-tabs-type-card-gutter > .arco-tabs-content) {
