@@ -13,11 +13,40 @@
 </template>
   
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import type { TreeNodeData } from '@arco-design/web-vue'
 import { BTN_TYPE } from '@/common/components/actionsBar/config'
 import { FORM_TYPE } from '@/common/components/formItem/config'
 import ActionsBar, { type HandleActionParams } from '@/common/components/actionsBar/index.vue'
 import FormModal, { type FormItemT } from '@/common/components/formModal/index.vue'
+import type { RouteRecordRawCustom } from '@/router/index'
+import { useGlobalStore, type PermissionItemT } from '@/stores/global'
+
+const globaStore = useGlobalStore()
+const { getAllPermissionsData } = globaStore
+const allPermissionsData = ref<TreeNodeData[]>()
+
+const processPermission = (routesData: PermissionItemT[], newData: TreeNodeData[]) => {
+    routesData.forEach((permissionItem) => {
+        let item: TreeNodeData = {
+            title: permissionItem.meta.title,
+            key: permissionItem.name
+        }
+        newData.push(item)
+        // TODO 
+        if (permissionItem.children) {
+            item.children = []
+            processPermission(permissionItem.children, item.children);
+        }
+    });
+};
+onMounted(async () => {
+    let data = await getAllPermissionsData()
+    let newData: TreeNodeData[] = [];
+    processPermission(data, newData)
+    allPermissionsData.value = newData
+})
+
 interface DataItemT {
     id: string,
     name: string,

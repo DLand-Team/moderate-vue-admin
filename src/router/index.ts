@@ -91,7 +91,7 @@ export const processRoutes = (
     component: NotFund,
   });
   router.push(routeData.fullPath);
-  return Promise.resolve([...persmissions]);
+  return Promise.resolve(persmissions);
 };
 
 export default router;

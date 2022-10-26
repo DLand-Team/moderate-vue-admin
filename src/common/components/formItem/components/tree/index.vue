@@ -1,8 +1,5 @@
 <template>
     <div>
-        <a-checkbox v-model="checked" style="margin-bottom: 20px;margin-top: 5px;">
-            checkable
-        </a-checkbox>
         <a-tree class="tree-demo" draggable blockNode :checkable="checked" :data="treeData" @drop="onDrop" />
     </div>
 
@@ -14,8 +11,7 @@ export default {
     setup() {
         const treeData = ref(defaultTreeData);
         const checkedKeys = ref([]);
-        const checked = ref(false);
-
+        const checked = ref(true);
         return {
             treeData,
             checkedKeys,

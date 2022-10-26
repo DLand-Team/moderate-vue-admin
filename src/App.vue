@@ -9,18 +9,12 @@ const route = useRoute();
 const counterStore = useCounterStore()
 const globaStore = useGlobalStore()
 const { getPermissionsData, setMenuData } = globaStore
-const { increment } = counterStore
 
 
 onMounted(async () => {
   const permissionsData = await getPermissionsData()
   processRoutes(permissionsData, route).then((menuData) => {
     setMenuData(menuData)
-    increment()
-    setTimeout(() => {
-      // setMenuData([])
-      increment()
-    }, 1000)
   })
 })
 

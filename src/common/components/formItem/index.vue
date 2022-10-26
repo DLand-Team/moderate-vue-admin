@@ -1,4 +1,3 @@
- 
 <template>
     <a-form-item label-col-flex="50px" :field=id :label="title">
         <a-select v-if="type == FORM_SELECT" placeholder="Please select ...">
