@@ -6,7 +6,7 @@
                 <a-button @click="handleEdit({ title: '编辑', record: record })">编辑</a-button>
             </template>
         </a-table>
-        <FormModal :form="formValues" :form-items="formItems" :title="modalTitle" :handleClose="handleClose"
+        <FormModal :form="formValues" :form-items="formItems!" :title="modalTitle" :handleClose="handleClose"
             :visible="show"></FormModal>
     </div>
 
@@ -25,7 +25,7 @@ interface DataItemT {
     status: number,
 }
 const { ADD, EDIT, IMPORT, EXPORT, DELETE } = BTN_TYPE;
-const { FORM_SELECT, FORM_INPUT } = FORM_TYPE;
+const { FORM_SELECT, FORM_INPUT, FORM_TREE } = FORM_TYPE;
 const btnPermission = ADD.code | EDIT.code | IMPORT.code | DELETE.code
 const modalTitle = ref("")
 
@@ -90,8 +90,8 @@ const handleEdit = (data: { title: string, record: DataItemT }) => {
             {
                 id: "test3",
                 title: "test3",
-                type: FORM_INPUT,
-                span: 12,
+                type: FORM_TREE,
+                span: 24,
                 formValue: null
             },
         ],
