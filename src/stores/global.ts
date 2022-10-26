@@ -1,22 +1,23 @@
+import type { RouteItemDataT } from "@/router/index";
+import { reactive, ref, type Component } from "vue";
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
 import mockData from "./mockPermissions";
 
 export interface PermissionItemT {
-  name:string
-  meta:{
-    title?: string
-    icon?: string
-    noCache?: boolean
-    link?: null
-  }
-  children?:PermissionItemT[]
+  name: string;
+  meta: {
+    title?: string;
+    icon?: string;
+    noCache?: boolean;
+    link?: null;
+  };
+  children?: PermissionItemT[];
 }
 
 export const useGlobalStore = defineStore("global", () => {
-  const menuData: any = ref([]);
+  const menuData = ref<RouteItemDataT[]>([]);
 
-  function setMenuData(data: any) {
+  function setMenuData(data: RouteItemDataT[]) {
     menuData.value = data;
   }
 

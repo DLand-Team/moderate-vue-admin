@@ -13,18 +13,7 @@
  
 <script setup lang="ts">
 import { toRefs, ref, watchEffect, type Ref } from 'vue';
-import FormItem from '@/common/components/formItem/index.vue'
-
-export interface FormItemT {
-    id: string
-    title: string
-    type: symbol
-    span: number
-    formValue: Ref<any> | null
-    options?: {
-        selectOptions: { name: string, value: string }[]
-    }
-}
+import FormItem,{type FormItemT} from '@/common/components/formItem/index.vue'
 
 const props = defineProps<{ form: any, formItems: FormItemT[], visible: boolean, handleClose: () => void, title: string }>()
 const { form, visible, handleClose, title, formItems } = toRefs(props);
@@ -58,7 +47,7 @@ watchEffect(() => {
 })
 
 
-const handleBeforeOk = (done: any) => {
+const handleBeforeOk = (done: ()=>void) => {
     done()
 };
 const handleCancel = () => {

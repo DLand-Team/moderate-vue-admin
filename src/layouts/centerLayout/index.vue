@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { useGlobalStore } from '@/stores/global'
-import { useCounterStore } from '@/stores/counter'
 import { MenuSlider, Header, Content } from './components/'
 import { storeToRefs } from 'pinia'
-import { watch, watchEffect } from 'vue';
 const globaStore = useGlobalStore()
 const { menuData } = storeToRefs(globaStore)
 

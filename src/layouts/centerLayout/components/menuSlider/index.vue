@@ -7,6 +7,7 @@ import MenuItem from './menuItem/index.vue'
 import { useRouter, useRoute } from 'vue-router'
 import { watch, reactive, onMounted, ref, watchEffect, toRefs } from 'vue'
 import { getRouteData, type RouteRecordRawCustom } from '@/router/index'
+import type { RouteItemDataT } from "@/router/index";
 
 const router = useRouter()
 const route = useRoute()
@@ -14,7 +15,7 @@ const openKeys = reactive<{ value: string[] }>({ value: [] })
 const selectKeys = reactive<{ value: string[] }>({ value: [] })
 
 const props = defineProps<{
-    routesData: any
+    routesData: RouteItemDataT[]
 }>()
 const { routesData } = toRefs(props);
 

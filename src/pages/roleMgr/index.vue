@@ -18,8 +18,8 @@ import type { TreeNodeData } from '@arco-design/web-vue'
 import { BTN_TYPE } from '@/common/components/actionsBar/config'
 import { FORM_TYPE } from '@/common/components/formItem/config'
 import ActionsBar, { type HandleActionParams } from '@/common/components/actionsBar/index.vue'
-import FormModal, { type FormItemT } from '@/common/components/formModal/index.vue'
-import type { RouteRecordRawCustom } from '@/router/index'
+import type { FormItemT } from '@/common/components/formItem/index.vue'
+import FormModal from '@/common/components/formModal/index.vue'
 import { useGlobalStore, type PermissionItemT } from '@/stores/global'
 
 const globaStore = useGlobalStore()
@@ -33,7 +33,6 @@ const processPermission = (routesData: PermissionItemT[], newData: TreeNodeData[
             key: permissionItem.name
         }
         newData.push(item)
-        // TODO 
         if (permissionItem.children) {
             item.children = []
             processPermission(permissionItem.children, item.children);
@@ -58,8 +57,7 @@ const { FORM_SELECT, FORM_INPUT, FORM_TREE } = FORM_TYPE;
 const btnPermission = ADD.code | EDIT.code | IMPORT.code | DELETE.code
 const modalTitle = ref("")
 
-
-const formValues: any = ref({})
+const formValues = ref({})
 
 let formItems = ref<FormItemT[]>()
 
@@ -71,7 +69,6 @@ const handleAction = (params: HandleActionParams) => {
             id: "test1",
             title: "test1",
             type: FORM_SELECT,
-            formValue: null,
             span: 12,
             options: {
                 selectOptions: [
@@ -101,7 +98,6 @@ const handleEdit = (data: { title: string, record: DataItemT }) => {
                 title: "test1",
                 type: FORM_SELECT,
                 span: 12,
-                formValue: null,
                 options: {
                     selectOptions: [
                         { name: "test1", value: "test1" },
@@ -114,14 +110,16 @@ const handleEdit = (data: { title: string, record: DataItemT }) => {
                 title: "test2",
                 type: FORM_INPUT,
                 span: 12,
-                formValue: null
+                formValue: ref(),
             },
             {
                 id: "test3",
                 title: "test3",
                 type: FORM_TREE,
                 span: 24,
-                formValue: null
+                options: {
+                    treeOptions: allPermissionsData.value
+                }
             },
         ],
         title: ''
