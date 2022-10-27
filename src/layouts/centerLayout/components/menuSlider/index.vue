@@ -56,8 +56,8 @@ watch(() => route.path, (value, oldValue) => {
 </script>
     
 <template>
-    <a-layout-sider collapsible breakpoint="xl">
-        <div class="logo" />
+    <a-layout-sider :width="260" collapsible breakpoint="xl">
+        <div class="logo">Moderate</div>
         <a-menu v-if="props.routesData.length" :selected-keys="selectKeys.value" :default-open-keys="openKeys.value"
             :style="{ width: '100%' }" @menu-item-click="onClickMenuItem">
             <MenuItem v-for="(route, index) in props.routesData" :item-data="route">

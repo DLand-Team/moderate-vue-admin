@@ -1,45 +1,39 @@
 <template>
-    <a-form-item label-col-flex="50px" :field=id :label="title">
-        <a-select v-if="type == FORM_SELECT" placeholder="Please select ...">
-            <a-option v-for="(item, index) of formItemOptions" :key="item.name">
-                {{ item.value }}
-            </a-option>
-        </a-select>
-        <a-input v-else-if="type == FORM_DATE_PICKER" :v-model="formValue" />
-        <a-input v-else-if="type == FORM_TEXTAREA" :v-model="formValue" />
-        <TreeFormItem :formItemOptions="formItemOptions" v-else-if="type == FORM_TREE" v-model="formValue" />
-        <a-input v-else :v-model="formValue" />
+    <a-form-item :rules="config?.rules" label-col-flex="70px" :field=id :label="title">
+        <SelectItem :formValues="formValues" :form-data="formData" v-if="type == FORM_SELECT"></SelectItem>
+        <!-- <a-input v-else-if="type == FORM_DATE_PICKER" :v-model="formValue" /> -->
+        <!-- <a-input v-else-if="type == FORM_TEXTAREA" :v-model="formValue" /> -->
+        <TreeItem :formValues="formValues" :form-data="formData" v-else-if="type == FORM_TREE" />
+        <a-input :placeholder="config?.placeholder" v-else v-model="formValues[id]" />
     </a-form-item>
 </template>
  
 <script setup lang="ts">
 import { ref, toRefs, type Ref } from 'vue';
-import type { TreeNodeData } from '@arco-design/web-vue';
+import SelectItem from './components/select/index.vue'
+import type { TreeNodeData, FieldRule } from '@arco-design/web-vue';
 import { FORM_TYPE } from './config'
-import TreeFormItem from './components/tree/index.vue'
+import TreeItem from './components/tree/index.vue'
 
 export interface FormItemT {
+    key?: string,
     id: string
     title: string
     type: symbol
-    span: number
+    span?: number
     formValue?: Ref<unknown>
-    options?: {
-        selectOptions?: { name: string, value: string }[],
+    config?: {
+        options?: { name: string, value: string }[]
         treeOptions?: TreeNodeData[]
+        handleTreeChange?: (value: string[]) => void
+        rules?: FieldRule | FieldRule[]
+        placeholder?:string
     }
 }
 
 const { FORM_SELECT, FORM_DATE_PICKER, FORM_TEXTAREA, FORM_TREE_SELECT, FORM_TREE } = FORM_TYPE;
 
-const props = defineProps<{ formData: FormItemT }>();
-const { formData } = toRefs(props)
-debugger
-const { formValue, type, options, title, id } = toRefs(formData.value);
-const formItemOptions = ref()
-if (type.value == FORM_SELECT) {
-    formItemOptions.value = toRefs(options!.value!).selectOptions!.value
-} else if (type.value == FORM_TREE) {
-    formItemOptions.value = toRefs(options!.value!).treeOptions!.value
-}
+const props = defineProps<{ formValues: any, formData: FormItemT }>();
+const { formData, formValues } = toRefs(props)
+const { type, id, title, config } = toRefs(formData.value);
 </script>

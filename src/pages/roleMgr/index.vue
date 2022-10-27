@@ -70,8 +70,8 @@ const handleAction = (params: HandleActionParams) => {
             title: "test1",
             type: FORM_SELECT,
             span: 12,
-            options: {
-                selectOptions: [
+            config: {
+                options: [
                     { name: "test1", value: "test1" },
                     { name: "test2", value: "test2" },
                 ]
@@ -93,13 +93,13 @@ const handleClose = () => {
 const handleEdit = (data: { title: string, record: DataItemT }) => {
     toShowModal({
         fromData: [
-            {
+        {
                 id: "test1",
                 title: "test1",
                 type: FORM_SELECT,
                 span: 12,
-                options: {
-                    selectOptions: [
+                config: {
+                    options: [
                         { name: "test1", value: "test1" },
                         { name: "test2", value: "test2" },
                     ]
@@ -110,15 +110,14 @@ const handleEdit = (data: { title: string, record: DataItemT }) => {
                 title: "test2",
                 type: FORM_INPUT,
                 span: 12,
-                formValue: ref(),
             },
             {
                 id: "test3",
                 title: "test3",
                 type: FORM_TREE,
                 span: 24,
-                options: {
-                    treeOptions: allPermissionsData.value
+                config: {
+                    treeOptions: allPermissionsData.value,
                 }
             },
         ],

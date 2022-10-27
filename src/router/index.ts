@@ -10,7 +10,7 @@ import routesConfig, {
   type RouteRecordRawCustom,
 } from "./config";
 
-import { NotFund, Index } from "../pages";
+import { NotFund, Login } from "../pages";
 import { LoginLayout, CenterLayout } from "@/layouts";
 
 export interface RouteItemDataT {
@@ -28,6 +28,12 @@ export interface RouteItemDataT {
   };
   children?: RouteItemDataT[];
 }
+let loginPage = {
+  path: "/",
+  name: "login",
+  title: "登录",
+  component: Login,
+};
 let homePageRouteData = {
   path: "/home",
   name: "home",
@@ -38,7 +44,7 @@ let homePageRouteData = {
 };
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [homePageRouteData],
+  routes: [loginPage, homePageRouteData],
 });
 
 const processRoute = (
@@ -72,7 +78,6 @@ const processRouteTwice = (routesData: RouteRecordRawCustom[]) => {
     }
   });
 };
-
 
 export const processRoutes = (
   persmissions: RouteItemDataT[],

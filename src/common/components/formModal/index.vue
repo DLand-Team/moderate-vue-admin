@@ -1,30 +1,38 @@
  
 <template>
     <a-modal v-model:visible="visible" :title="title" @cancel="handleCancel" @before-ok="handleBeforeOk">
-        <a-form :model="form">
-            <a-row v-for="(childArr, index) in formItemsPro" class="grid-demo" :gutter="24" :key="index">
-                <a-col v-for="(cItem, cId) in childArr" class="grid-demo" :span="cItem.span" :key="cId">
-                    <FormItem :formData="cItem"></FormItem>
+        <a-form :model="formValues" @submit="handleSubmit">
+            <a-row v-for="(childArr, index) in formItemsPro" class="grid-demo" :gutter="24" :key="childArr[0].key">
+                <a-col v-for="(cItem, cId) in childArr" class="grid-demo" :span="cItem.span" :key="cItem.key">
+                    <FormItem :formValues="formValues" :formData="cItem"></FormItem>
                 </a-col>
             </a-row>
         </a-form>
+        {{ formValues }}
     </a-modal>
 </template>
  
 <script setup lang="ts">
 import { toRefs, ref, watchEffect, type Ref } from 'vue';
-import FormItem,{type FormItemT} from '@/common/components/formItem/index.vue'
+import { UUID } from '@/common/utils'
+import FormItem, { type FormItemT } from '@/common/components/formItem/index.vue'
 
 const props = defineProps<{ form: any, formItems: FormItemT[], visible: boolean, handleClose: () => void, title: string }>()
 const { form, visible, handleClose, title, formItems } = toRefs(props);
+
+const handleSubmit = ({ values, errors }: any) => {
+    debugger
+    console.log('values:', values, '\nerrors:', errors)
+}
+
+const formValues = ref<any>({})
 const processFormItems = (arr: FormItemT[]) => {
     let result: FormItemT[][] = [];
     let rowId = 0;
     let total = 0
-    debugger
     for (let i = 0; i < arr.length; i++) {
         let item = arr[i]
-        const { span } = item;
+        const { span=0 } = item;
         if ((total * 1 + span * 1) > 24) {
             total = 0;
             rowId++;
@@ -33,9 +41,11 @@ const processFormItems = (arr: FormItemT[]) => {
         if (!(rowId in result)) {
             result[rowId] = []
         }
-        result[rowId].push(item)
-        form.value[item.id] = ref()
+        result[rowId].push(item);
+        formValues.value[item.id] = "";
+        form.value[item.id] = ref({});
         item.formValue = form.value[item.id];
+        item.key = UUID()
     }
     return result
 }
@@ -46,8 +56,12 @@ watchEffect(() => {
     }
 })
 
+watchEffect(() => {
+    console.log(formItemsPro.value)
+})
 
-const handleBeforeOk = (done: ()=>void) => {
+
+const handleBeforeOk = (done: () => void) => {
     done()
 };
 const handleCancel = () => {

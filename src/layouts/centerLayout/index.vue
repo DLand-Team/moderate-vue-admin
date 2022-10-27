@@ -32,6 +32,12 @@ const { menuData } = storeToRefs(globaStore)
 
 .layout-demo :deep(.arco-layout-sider-light) .logo {
     background: var(--color-fill-2);
+    height: 45px;
+    font-size: 26px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .layout-demo :deep(.arco-layout-header) {

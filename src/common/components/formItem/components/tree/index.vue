@@ -1,72 +1,28 @@
 <template>
     <div>
-        <a-tree class="tree-demo" draggable blockNode :checkable="checked" :data="formItemOptions" @drop="onDrop" />
+        <a-tree v-model:checkedKeys="formValues[id]" @check="handleCheck" ref="treeRef" class="tree-demo"
+            :draggable="false" blockNode :checkable="checked" :data="config?.treeOptions" @drop="onDrop" />
     </div>
 </template>
 <script setup lang="ts">
-import { ref, toRefs } from 'vue';
+import { ref, toRefs, watchEffect, type Ref } from 'vue';
 import type { TreeNodeData } from '@arco-design/web-vue'
+import type { FormItemT } from '../../index.vue';
 
-const props = defineProps<{ formItemOptions: TreeNodeData[] }>()
-const { formItemOptions } = toRefs(props)
+const props = defineProps<{ formValues: any, formData: FormItemT }>()
+// const { handleChange } = props;
+const { formData, formValues } = toRefs(props)
+const { id, config } = toRefs(formData.value);
+const treeRef = ref()
 
-const defaultTreeData: TreeNodeData[] = [
-    {
-        title: 'Trunk 0-0',
-        key: '0-0',
-        children: [
-            {
-                title: 'Leaf 0-0-1',
-                key: '0-0-1',
-            },
-            {
-                title: 'Branch 0-0-2',
-                key: '0-0-2',
-                disableCheckbox: true,
-                children: [
-                    {
-                        draggable: false,
-                        title: 'Leaf 0-0-2-1 (Drag disabled)',
-                        key: '0-0-2-1'
-                    }
-                ]
-            },
-        ],
-    },
-    {
-        title: 'Trunk 0-1',
-        key: '0-1',
-        children: [
-            {
-                title: 'Branch 0-1-1',
-                key: '0-1-1',
-                checkable: false,
-                children: [
-                    {
-                        title: 'Leaf 0-1-1-1',
-                        key: '0-1-1-1',
-                    },
-                    {
-                        title: 'Leaf 0-1-1-2',
-                        key: '0-1-1-2',
-                    },
-                ]
-            },
-            {
-                title: 'Leaf 0-1-2',
-                key: '0-1-2',
-            },
-        ],
-    },
-]
+const handleCheck = (checkKeys: string[]) => {
+    // handleChange(checkKeys)
+}
 
-const treeData = ref(defaultTreeData);
 const checked = ref(true);
 function onDrop({ dragNode, dropNode, dropPosition }: { dragNode: TreeNodeData, dropNode: TreeNodeData, dropPosition: number }) {
-    const data = treeData.value;
-    const loop = (data: TreeNodeData[], key: string | number, callback: (item: TreeNodeData, index: string | number, arr: TreeNodeData[
-
-    ]) => void) => {
+    const data = config?.value!.treeOptions;
+    const loop = (data: TreeNodeData[], key: string | number, callback: (item: TreeNodeData, index: string | number, arr: TreeNodeData[]) => void) => {
         data.some((item, index, arr) => {
             if (item.key === key) {
                 callback(item, index, arr);
@@ -79,22 +35,21 @@ function onDrop({ dragNode, dropNode, dropPosition }: { dragNode: TreeNodeData, 
         });
     };
 
-    loop(data, dragNode.key!, (_, index, arr) => {
+    loop(data!, dragNode.key!, (_, index, arr) => {
         arr.splice(index as number, 1);
     });
 
     if (dropPosition === 0) {
-        loop(data, dropNode.key!, (item) => {
+        loop(data!, dropNode.key!, (item) => {
             item.children = item.children || [];
             item.children.push(dragNode);
         });
     } else {
-        loop(data, dropNode.key!, (_, index, arr) => {
+        loop(data!, dropNode.key!, (_, index, arr) => {
             arr.splice(dropPosition < 0 ? index as number : (index as number) + 1, 0, dragNode);
         });
     }
 }
-
 
 </script>
 <style scoped>
