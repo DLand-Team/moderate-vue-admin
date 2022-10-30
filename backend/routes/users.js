@@ -37,8 +37,7 @@ router.post("/updatePermissions", async (ctx, next) => {
   const { name } = payload;
   let permissions = JSON.stringify(ctx.request.body) //获取post提交的数据
   await new Promise((resolve) => {
-    fs.writeFile(path.resolve('db/', `${name}_permissions.json`),permissions, (err, dataStr) => {
-      permissions = JSON.parse(dataStr.toString());
+    fs.writeFile(path.resolve('db/', `${name}_permissions.json`),permissions, () => {
       resolve()
     })
   })
