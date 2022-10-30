@@ -18,14 +18,14 @@ export interface PermissionItemT {
 export const useGlobalStore = defineStore("global", () => {
   const token = ref<string>("");
   const menuData = ref<RouteItemDataT[]>([]);
-  const permissions = ref<string[]>();
+  const permissions = ref<string[] | null>();
   const pageCacheArr = ref<{
     [key: string]: {
       name: string;
       path: string | undefined;
       title: string | undefined;
     };
-  }>({});
+  } | null>({});
 
   function setToken(value: string) {
     token.value = value;
@@ -35,7 +35,7 @@ export const useGlobalStore = defineStore("global", () => {
     menuData.value = data;
   }
 
-  function setPermissions(data: string[]) {
+  function setPermissions(data: string[] | null) {
     permissions.value = data;
   }
 
@@ -54,10 +54,22 @@ export const useGlobalStore = defineStore("global", () => {
       }, 1000);
     });
   }
+  function setPageCachearr(
+    data: {
+      [key: string]: {
+        name: string;
+        path: string | undefined;
+        title: string | undefined;
+      };
+    } | null
+  ) {
+    pageCacheArr.value = data;
+  }
 
   return {
     menuData,
     pageCacheArr,
+    setPageCachearr,
     getPermissionsData,
     setMenuData,
     getAllPermissionsData,

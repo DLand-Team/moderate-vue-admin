@@ -32,6 +32,8 @@ const allPermissionsData = ref<TreeNodeData[]>()
 const handleSubmit = (formValues: any) => {
     updatePermissions(formValues.permissions)
     show.value = false
+ 
+    globaStore.setToken("")
 }
 const processPermission = (routesData: PermissionItemT[], newData: TreeNodeData[]) => {
     routesData.forEach((permissionItem) => {
@@ -62,7 +64,6 @@ const processPermission = (routesData: PermissionItemT[], newData: TreeNodeData[
 onMounted(async () => {
     let newData: TreeNodeData[] = [];
     processPermission(routesData, newData)
-    debugger
     allPermissionsData.value = newData
 })
 

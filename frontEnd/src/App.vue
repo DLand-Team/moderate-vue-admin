@@ -17,6 +17,7 @@ const { permissions, token } = storeToRefs(globaStore)
 watch((() => {
   return token.value
 }), async (value, oldValue) => {
+  debugger
   if (value && !oldValue) {
     // 如果token存在，说明已经登录
     const isHasPermissions = permissions.value;
@@ -39,6 +40,8 @@ watch((() => {
     }
   }
   if(!value){
+    globaStore.setPermissions(null)
+    globaStore.setPageCachearr({})
     router.push('/')
   }
 })
