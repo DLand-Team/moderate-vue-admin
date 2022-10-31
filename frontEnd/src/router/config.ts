@@ -1,4 +1,4 @@
-import { Hello, Group, Index, RoleMgr } from "@/pages";
+import { Hello, User, Index, RoleMgr } from "@/pages";
 import type {
   RouteKeyT,
   RouteRecordRawCustom,
@@ -23,7 +23,7 @@ const config: {
     meta: {
       title: "用户管理",
     },
-    component: Group,
+    component: User,
   },
   role: {
     meta: {

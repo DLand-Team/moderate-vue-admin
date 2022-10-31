@@ -13,7 +13,7 @@
   
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import  { Modal,type TreeNodeData } from '@arco-design/web-vue'
+import { Modal, type TreeNodeData } from '@arco-design/web-vue'
 import { BTN_PERMISSIONS, ActionsPermissionConfig, type BtnItemT } from '@/permissions/actionConfig'
 import { FORM_TYPE } from '@/common/components/formItem/config'
 import ActionsBar, { type HandleActionParams } from '@/common/components/actionsBar/index.vue'
@@ -32,8 +32,8 @@ const allPermissionsData = ref<TreeNodeData[]>()
 const handleSubmit = (formValues: any) => {
     updatePermissions(formValues.permissions)
     Modal.confirm({
-        content:"修改权限，需要重新登录哦～～～",
-        onOk:()=>{
+        content: "修改权限，需要重新登录哦～～～",
+        onOk: () => {
             show.value = false
             globaStore.setToken("")
         }
@@ -127,7 +127,7 @@ const handleEdit = (data: { title: string, record: DataItemT }) => {
                 config: {
                     treeOptions: {
                         checkStrictly: true,
-                        defaultCheckedKeys: permissions.value
+                        defaultCheckedKeys: permissions.value!
                     },
                     initValue: allPermissionsData.value,
                 }

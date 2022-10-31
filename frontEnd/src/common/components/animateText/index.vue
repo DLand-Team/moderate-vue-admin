@@ -6,14 +6,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, toRefs } from 'vue';
+import { getCurrentInstance, onMounted, ref, toRefs } from 'vue';
 
 const props = defineProps<{ texts: string[] }>()
 const { texts } = toRefs(props)
 
 let container = ref()
 let container2 = ref()
-
 
 let defaultRun: boolean = true;
 let infinite: boolean = true;

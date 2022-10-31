@@ -1,8 +1,6 @@
 <template>
     <a-form-item  :rules="config?.rules" label-col-flex="70px" :field=id :label="title">
         <SelectItem :formValues="formValues" :form-data="formData" v-if="type == FORM_SELECT"></SelectItem>
-        <!-- <a-input v-else-if="type == FORM_DATE_PICKER" :v-model="formValue" /> -->
-        <!-- <a-input v-else-if="type == FORM_TEXTAREA" :v-model="formValue" /> -->
         <TreeItem :formValues="formValues" :form-data="formData" v-else-if="type == FORM_TREE" />
         <a-input :placeholder="config?.placeholder" v-else v-model="formValues[id]" />
     </a-form-item>

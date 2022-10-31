@@ -49,7 +49,7 @@ export const routesData =  [
       {
         name: user.name,
         meta: {
-          title: "管理",
+          title: "用户管理",
           icon: "user",
           noCache: false,
           link: null,

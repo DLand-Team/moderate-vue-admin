@@ -4,35 +4,56 @@ export default {
 };
 </script>
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { FORM_TYPE } from '@/common/components/formItem/config';
 import { storeToRefs } from 'pinia'
 import { useCounterStore } from '@/stores/counter'
+import Form from '@/common/components/form/index.vue'
 
 const store = useCounterStore()
-const { count } = storeToRefs(store)
 const { increment } = store;
 
 // 变量
-const msg = 'Hello Moderate-vue-admin!'
-onMounted(() => {
-    console.log(123)
-})
+const columns = [{
+    title: '用户编号',
+    dataIndex: 'id',
+}, {
+    title: '用户名称',
+    dataIndex: 'name',
+}, {
+    title: '状态',
+    dataIndex: 'status',
+}, {
+    title: '操作',
+    slotName: 'optional'
+}];
+
+const data = [{
+    id: '1',
+    name: 'admin',
+    signStr: 'admin',
+    status: 1,
+}, {
+    id: '2',
+    name: 'nor',
+    signStr: 'normal',
+    status: 1,
+}];
+const formItems = [{
+    id: "name",
+    title: "用户姓名",
+    type: FORM_TYPE.FORM_INPUT,
+    span: 12,
+
+}]
 </script>
         
 <template>
     <div class="content">
-        <a-tabs>
-            <a-tab-pane key="1" title="Tab 1">
-                Content of Tab Panel 1
-            </a-tab-pane>
-            <a-tab-pane key="2" title="Tab 2">
-                Content of Tab Panel 2
-            </a-tab-pane>
-            <a-tab-pane key="3">
-                <template #title>Tab 3</template>
-                Content of Tab Panel 3
-            </a-tab-pane>
-        </a-tabs>
+        <a-row>
+            <Form :from-items="formItems"></Form>
+        </a-row>
+        <a-table :columns="columns" :data="data">
+        </a-table>
     </div>
 </template>
         
