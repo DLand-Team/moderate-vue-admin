@@ -22,24 +22,24 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    createStyleImportPlugin({
-      libs: [
-        {
-          libraryName: "@arco-design/web-vue",
-          esModule: true,
-          resolveStyle: (name) => {
-            // css
-            return `@arco-design/web-vue/es/${name}/style/css.js`;
-            // less
-            return `@arco-design/web-vue/es/${name}/style/index.js`;
-          },
-        },
-      ],
-    }),
+    // createStyleImportPlugin({
+    //   libs: [
+    //     {
+    //       libraryName: "@arco-design/web-vue",
+    //       esModule: true,
+    //       resolveStyle: (name) => {
+    //         // css
+    //         return `@arco-design/web-vue/es/${name}/style/css.js`;
+    //         // less
+    //         return `@arco-design/web-vue/es/${name}/style/index.js`;
+    //       },
+    //     },
+    //   ],
+    // }),
     vueJsx(),
-    AutoImport({
-      resolvers: [ArcoResolver()],
-    }),
+    // AutoImport({
+    //   resolvers: [ArcoResolver()],
+    // }),
     Components({
       resolvers: [
         ArcoResolver({
