@@ -6,9 +6,15 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const jwtKoa = require('koa-jwt');
+const fs = require('fs')
 
-const index = require('./routes/index')
-const users = require('./routes/users')
+let routeArr = []
+const files = fs.readdirSync('./routes')
+files.forEach(function (item, index) {
+  routeArr.push("./routes/"+item)
+})
+
+
 const { secret } = require('./config/index')
 
 // error handler
@@ -32,7 +38,7 @@ app.use((ctx, next) => {
       ctx.status = 401;
       ctx.body = {
         ok: false,
-        code:401,
+        code: 401,
         msg: err.originalError ? err.originalError.message : err.message
       }
     } else {
@@ -58,9 +64,14 @@ app.use(jwtKoa({ secret: secret }).unless({
   ]
 }));
 
+
+const index = require('./routes/index')
+const users = require('./routes/users')
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+routeArr.forEach((item)=>{
+  const route = require(item)
+  app.use(route.routes(), route.allowedMethods())
+})
 
 // error-handling
 app.on('error', (err, ctx) => {
