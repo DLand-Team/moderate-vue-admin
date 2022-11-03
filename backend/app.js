@@ -46,6 +46,7 @@ app.use((ctx, next) => {
     }
   });
 });
+
 // logger
 app.use(async (ctx, next) => {
   const start = new Date()
@@ -58,15 +59,12 @@ app.use(async (ctx, next) => {
 app.use(jwtKoa({ secret: secret }).unless({
   // 设置login、register接口，可以不需要认证访问
   path: [
-    /^\/login/,
+    /^\//,
     /^\/register/,
     /^((?!).)*$/   // 设置除了私有接口外的其它资源，可以不需要认证访问
   ]
 }));
 
-
-const index = require('./routes/index')
-const users = require('./routes/users')
 // routes
 routeArr.forEach((item)=>{
   const route = require(item)
