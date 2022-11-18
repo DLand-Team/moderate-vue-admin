@@ -39,7 +39,7 @@ watch((() => {
       router.push(getRouteData(index).path)
     }
   }
-  if(!value){
+  if (!value) {
     globaStore.setPermissions(null)
     globaStore.setPageCachearr({})
     router.push('/')
