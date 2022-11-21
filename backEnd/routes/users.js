@@ -36,11 +36,13 @@ router.post("/updatePermissions", async (ctx, next) => {
   const payload = getJWTPayload(ctx.headers.authorization)
   const { name } = payload;
   let permissions = JSON.stringify(ctx.request.body) //获取post提交的数据
-  await new Promise((resolve) => {
-    fs.writeFile(path.resolve('db/', `${name}_permissions.json`),permissions, () => {
-      resolve()
+  if(Array.isArray(permissions)){
+    await new Promise((resolve) => {
+      fs.writeFile(path.resolve('db/', `${name}_permissions.json`),permissions, () => {
+        resolve()
+      })
     })
-  })
+  }
   ctx.response.body = {
     status: 1,
     code: "200",
