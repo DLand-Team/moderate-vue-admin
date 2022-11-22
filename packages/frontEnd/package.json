@@ -1,6 +1,10 @@
 {
   "name": "admin-fe",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=16.17.0",
+    "npm": ">=8.15.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
