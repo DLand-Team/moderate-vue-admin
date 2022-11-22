@@ -8,17 +8,11 @@
 - ts
 
 # 启动
-## 启动Koa服务
 ```
-cd ./backEnd
+yarn
 yarn start
 ```
 
-## 启动前端
-```
-cd ./frontEnd
-yarn dev
-```
 
 这样，一个全栈项目就跑起来了。
 
